@@ -42,7 +42,7 @@ const symbols = {
 const getNumbers2 = (arr: string[]) => {
   let sum = 0;
   arr.forEach((str) => {
-    let foundIndexes: { [key: number]: [keyof typeof symbols] } = {};
+    let foundIndexes: { [key: number]: keyof typeof symbols } = {};
 
     Object.keys(symbols).map((symbolKey) => {
       str.indexOf(symbolKey);
@@ -51,24 +51,24 @@ const getNumbers2 = (arr: string[]) => {
         foundIndexes = {
           ...foundIndexes,
           ...{
-            [currentIndex]: symbols[
-              symbolKey as keyof typeof symbols
-            ] as any as [keyof typeof symbols],
+            [currentIndex]: symbols[symbolKey as keyof typeof symbols],
           },
         };
         currentIndex = str.indexOf(symbolKey, currentIndex + 1);
       }
     });
 
-    const lowestIndex = Math.min(...(Object.keys(foundIndexes) as any));
-    const highestIndex = Math.max(...(Object.keys(foundIndexes) as any));
+    const lowestIndex = Math.min(
+      ...[...Object.keys(foundIndexes)].map((v) => Number(v))
+    );
+    const highestIndex = Math.max(
+      ...[...Object.keys(foundIndexes)].map((v) => Number(v))
+    );
 
     const firstNumber = foundIndexes[lowestIndex];
     const secondNumber = foundIndexes[highestIndex];
 
-    // @ts-ignore
     const parsedFirstNumber = symbols[firstNumber];
-    // @ts-ignore
     const parsedSecondNumber = symbols[secondNumber];
 
     const number = parseInt(parsedFirstNumber + parsedSecondNumber);
