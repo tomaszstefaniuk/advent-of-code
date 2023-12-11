@@ -1,0 +1,17 @@
+{
+  "name": "adventofcode-day1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "typescript": "^5.3.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "tsc && node scripts/day1Trebuchet/script.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

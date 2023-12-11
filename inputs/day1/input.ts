@@ -1,4 +1,4 @@
-export const inputText = `threehqv2
+export const input = `threehqv2
 sxoneightoneckk9ldctxxnffqnzmjqvj
 1hggcqcstgpmg26lzxtltcgg
 nrhoneightkmrjkd7fivesixklvvfnmhsldrc
