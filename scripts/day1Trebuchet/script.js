@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const input_1 = require("../../inputs/day1/input");
 const getNumbers = (arr) => {
     let sum = 0;
     arr.forEach((element) => {
@@ -14,7 +15,7 @@ const getNumbers = (arr) => {
     });
     return sum;
 };
-const numbers = {
+const symbols = {
     "1": "1",
     "2": "2",
     "3": "3",
@@ -36,22 +37,30 @@ const numbers = {
 };
 const getNumbers2 = (arr) => {
     let sum = 0;
-    arr.forEach((element) => {
-        // Get indexes of numbers
-        const indexes = Object.keys(numbers).map((num) => element.indexOf(num));
-        const foundIndexes = indexes.filter((index) => index !== -1);
-        const lowestIndex = Math.min(...foundIndexes);
-        const highestIndex = Math.max(...foundIndexes);
-        const firstNumber = Object.keys(numbers)[indexes.indexOf(lowestIndex)];
-        const secondNumber = Object.keys(numbers)[indexes.indexOf(highestIndex)];
-        const parsedFirstNumber = numbers[firstNumber];
-        const parsedSecondNumber = numbers[secondNumber];
+    arr.forEach((str) => {
+        let foundIndexes = {};
+        Object.keys(symbols).map((symbolKey) => {
+            str.indexOf(symbolKey);
+            let currentIndex = str.indexOf(symbolKey);
+            while (currentIndex !== -1) {
+                foundIndexes = Object.assign(Object.assign({}, foundIndexes), {
+                    [currentIndex]: symbols[symbolKey],
+                });
+                currentIndex = str.indexOf(symbolKey, currentIndex + 1);
+            }
+        });
+        const lowestIndex = Math.min(...Object.keys(foundIndexes));
+        const highestIndex = Math.max(...Object.keys(foundIndexes));
+        const firstNumber = foundIndexes[lowestIndex];
+        const secondNumber = foundIndexes[highestIndex];
+        // @ts-ignore
+        const parsedFirstNumber = symbols[firstNumber];
+        // @ts-ignore
+        const parsedSecondNumber = symbols[secondNumber];
         const number = parseInt(parsedFirstNumber + parsedSecondNumber);
-        console.log(firstNumber, secondNumber);
-        console.log("number: ", number);
         sum += number;
     });
     return sum;
 };
 // console.log(getNumbers(input));
-console.log(getNumbers2(["twone"]));
+console.log(getNumbers2(input_1.input));

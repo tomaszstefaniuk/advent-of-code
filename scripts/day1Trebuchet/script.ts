@@ -18,7 +18,7 @@ const getNumbers = (arr: string[]) => {
   return sum;
 };
 
-const numbers = {
+const symbols = {
   "1": "1",
   "2": "2",
   "3": "3",
@@ -37,36 +37,45 @@ const numbers = {
   seven: "7",
   eight: "8",
   nine: "9",
-};
+} as const;
 
 const getNumbers2 = (arr: string[]) => {
   let sum = 0;
-  arr.forEach((element) => {
-    // Get indexes of numbers
-    const indexes = Object.keys(numbers).map((num) => element.indexOf(num));
-    const foundIndexes = indexes.filter((index) => index !== -1);
+  arr.forEach((str) => {
+    let foundIndexes: { [key: number]: [keyof typeof symbols] } = {};
 
-    const lowestIndex = Math.min(...foundIndexes);
-    const highestIndex = Math.max(...foundIndexes);
+    Object.keys(symbols).map((symbolKey) => {
+      str.indexOf(symbolKey);
+      let currentIndex = str.indexOf(symbolKey);
+      while (currentIndex !== -1) {
+        foundIndexes = {
+          ...foundIndexes,
+          ...{
+            [currentIndex]: symbols[
+              symbolKey as keyof typeof symbols
+            ] as any as [keyof typeof symbols],
+          },
+        };
+        currentIndex = str.indexOf(symbolKey, currentIndex + 1);
+      }
+    });
 
-    const firstNumber = Object.keys(numbers)[
-      indexes.indexOf(lowestIndex)
-    ] as keyof typeof numbers;
+    const lowestIndex = Math.min(...(Object.keys(foundIndexes) as any));
+    const highestIndex = Math.max(...(Object.keys(foundIndexes) as any));
 
-    const secondNumber = Object.keys(numbers)[
-      indexes.indexOf(highestIndex)
-    ] as keyof typeof numbers;
+    const firstNumber = foundIndexes[lowestIndex];
+    const secondNumber = foundIndexes[highestIndex];
 
-    const parsedFirstNumber = numbers[firstNumber];
-    const parsedSecondNumber = numbers[secondNumber];
+    // @ts-ignore
+    const parsedFirstNumber = symbols[firstNumber];
+    // @ts-ignore
+    const parsedSecondNumber = symbols[secondNumber];
 
     const number = parseInt(parsedFirstNumber + parsedSecondNumber);
-    console.log(firstNumber, secondNumber);
-    console.log("number: ", number);
     sum += number;
   });
   return sum;
 };
 
 // console.log(getNumbers(input));
-console.log(getNumbers2(["twone"]));
+console.log(getNumbers2(input));
