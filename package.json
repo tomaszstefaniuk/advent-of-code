@@ -8,7 +8,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "tsc && node scripts/day1Trebuchet/script.js",
+    "//": "tsc && node scripts/day1Trebuchet/script.js",
+    "start": "tsc && node scripts/day2CubeConundrum/script.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
