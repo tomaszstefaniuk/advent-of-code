@@ -36,12 +36,65 @@ const sumOfIdsOfPossibleGames = (arr: string[]) => {
   };
 
   for (let i = 1; i <= arr.length - 1; i++) {
-    const rollsWithGameIndexAsStr = arr[i].replace(`${i}: `, "");
-    const splitedRolls = rollsWithGameIndexAsStr.split(";");
+    const rollsAsStr = arr[i].replace(`${i}: `, "");
+    const splitedRolls = rollsAsStr.split(";");
 
     sumOfIndexes += isGameNotPossible(splitedRolls) ? 0 : i;
   }
   return sumOfIndexes;
 };
 
-console.log("sumIdsOfPossibleGames: ", sumOfIdsOfPossibleGames(input));
+const getSumOfMultipliedMinimumSetsOfCubes = (arr: string[]) => {
+  let sumOfMultipliedMinimumSetsOfCubes = 0;
+
+  const getProductOfMinimumSetsOfCubesOfGame = (splitedDiceRolls: string[]) => {
+    let redMinimumForPossibleGame = 0;
+    let greenMinimumForPossibleGame = 0;
+    let blueMinimumForPossibleGame = 0;
+
+    for (let diceRoll of splitedDiceRolls) {
+      const splitedDiceRoll = diceRoll.split(",");
+
+      for (let diceColor of splitedDiceRoll) {
+        if (diceColor.includes("red")) {
+          const redAmount = parseInt(diceColor.split("red")[0]);
+          if (redAmount > redMinimumForPossibleGame) {
+            redMinimumForPossibleGame = redAmount;
+          }
+        }
+        if (diceColor.includes("green")) {
+          const greenAmount = parseInt(diceColor.split("green")[0]);
+          if (greenAmount > greenMinimumForPossibleGame) {
+            greenMinimumForPossibleGame = greenAmount;
+          }
+        }
+        if (diceColor.includes("blue")) {
+          const blueAmount = parseInt(diceColor.split("blue")[0]);
+          if (blueAmount > blueMinimumForPossibleGame) {
+            blueMinimumForPossibleGame = blueAmount;
+          }
+        }
+      }
+    }
+    return (
+      redMinimumForPossibleGame *
+      greenMinimumForPossibleGame *
+      blueMinimumForPossibleGame
+    );
+  };
+
+  for (let i = 1; i <= arr.length - 1; i++) {
+    const diceRollsAsStr = arr[i].replace(`${i}: `, "");
+    const splitedDiceRolls = diceRollsAsStr.split(";");
+
+    sumOfMultipliedMinimumSetsOfCubes +=
+      getProductOfMinimumSetsOfCubesOfGame(splitedDiceRolls);
+  }
+  return sumOfMultipliedMinimumSetsOfCubes;
+};
+
+// console.log("sumIdsOfPossibleGames: ", sumOfIdsOfPossibleGames(input));
+console.log(
+  "sumOfMultipliedMinimumSetsOfCubes: ",
+  getSumOfMultipliedMinimumSetsOfCubes(input)
+);
